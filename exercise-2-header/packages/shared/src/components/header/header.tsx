@@ -6,11 +6,24 @@ import Typography from '@material-ui/core/Typography';
 
 export interface HeaderProps {
     children?: any;
+    controls?: any;
 }
+
+const styles = (theme: any) => ({
+    root: {
+        display: 'flex'
+    },
+    formControl: {
+        margin: theme.spacing.unit * 3
+    },
+    group: {
+        margin: `${theme.spacing.unit}px 0`
+    }
+});
 
 export class Header extends React.Component<HeaderProps> {
     render() {
-        const { children } = this.props;
+        const { children, controls } = this.props;
 
         return (
             <AppBar position="static">
@@ -18,6 +31,7 @@ export class Header extends React.Component<HeaderProps> {
                     <Typography variant="title" color="inherit">
                         {children}
                     </Typography>
+                    {controls}
                 </Toolbar>
             </AppBar>
         );
