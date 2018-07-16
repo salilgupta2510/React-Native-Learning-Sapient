@@ -11,7 +11,6 @@
     "test:watch": "jest --watch",
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts*'",
     "del-dist": "del-cli dist",
-    "prebuild": "yarn del-dist",
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -38,6 +37,7 @@
     "@types/storybook__react": "^3.0.7",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.7",
+    "del-cli": "^1.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "file-loader": "^0.11.2",
