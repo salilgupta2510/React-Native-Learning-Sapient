@@ -32,17 +32,17 @@ const overrides: Overrides = {
         },
         colorSecondary: {
             '&$checked': {
-                color: grey[300],
-              },
+                color: grey[300]
+            }
         },
         root: {
             color: grey[300],
             '&$checked': {
-                color: grey[300],
-              },
+                color: grey[300]
+            }
         },
         checked: {
-            color: grey[300],
+            color: grey[300]
         }
     },
     MuiToolbar: {
@@ -66,13 +66,13 @@ const overrides: Overrides = {
         underline: {
             '&:before': {
                 borderBottom: '1px solid #ffffff'
-              },
+            },
             '&:hover': {
                 borderBottom: '1px solid #ffffff'
             },
             '&:after': {
                 borderBottom: '1px solid #ffffff'
-              },
+            }
         }
     },
     MuiFormControlLabel: {

@@ -15,7 +15,7 @@ import { NewOrders } from './new-orders';
 const styles = (theme: Theme) => ({
     toolbar: {
         minHeight: 50,
-        backgroundColor: theme.palette.grey[900],
+        backgroundColor: theme.palette.grey[900]
     },
     title: {
         color: theme.palette.grey[300],
@@ -23,7 +23,7 @@ const styles = (theme: Theme) => ({
         fontWeight: 500,
         flex: 1,
         fontFamily: 'Roboto',
-        letterSpacing: 0,
+        letterSpacing: 0
     }
 });
 
@@ -35,8 +35,7 @@ export interface HeaderProps {
 
 export const Header = decorate<HeaderProps>(
     class extends React.Component<
-        HeaderProps &
-            WithStyles<'toolbar' | 'title'>
+        HeaderProps & WithStyles<'toolbar' | 'title'>
     > {
         render() {
             const { classes, children } = this.props;
@@ -44,7 +43,7 @@ export const Header = decorate<HeaderProps>(
             return (
                 <AppBar position="static" color="default">
                     <Toolbar className={classes.toolbar}>
-                        <Typography variant='title' className={classes.title}>
+                        <Typography variant="title" className={classes.title}>
                             {children}
                         </Typography>
                         <VisibilitySelector />
