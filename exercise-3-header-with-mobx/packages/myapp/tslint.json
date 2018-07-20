@@ -10,7 +10,8 @@
     "object-literal-sort-keys": false,
     "quotemark": false,
     "semicolon": false,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "ordered-imports": false
   },
   "linterOptions": {
     "exclude": [

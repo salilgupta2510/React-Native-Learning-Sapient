@@ -4,7 +4,7 @@ import { WithStyles, withStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { inject } from 'mobx-react';
 import { RouterView, ViewMap } from 'mobx-state-router';
-import { HomePage } from './features/home/home-page';
+import HomePage from './features/home/home-page';
 import { NotFoundPage } from './features/not-found-page';
 import { RootStore } from './stores/root.store';
 
@@ -56,11 +56,9 @@ export interface ShellProps {
     rootStore: RootStore;
 }
 
-export const Shell = decorate<{}>(
+export const Shell = decorate<any>(
     inject('rootStore')(
-        class extends React.Component<
-            ShellProps & WithStyles<'@global' | 'root'>
-        > {
+        class extends React.Component<ShellProps & WithStyles<'@global' | 'root'>> {
             public render() {
                 const {
                     classes,

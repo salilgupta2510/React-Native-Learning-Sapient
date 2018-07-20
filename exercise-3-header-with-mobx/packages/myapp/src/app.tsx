@@ -10,7 +10,6 @@ import { history } from './utils/history';
 
 const theme = getTestTheme();
 const rootStore = new RootStore();
-rootStore.init();
 
 // Observe history changes
 const historyAdapter = new HistoryAdapter(rootStore.routerStore, history);

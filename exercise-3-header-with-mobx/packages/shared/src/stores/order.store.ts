@@ -1,38 +1,53 @@
-import { action, computed, decorate, observable, ObservableMap } from 'mobx';
-import { VisibilityFilterEnum } from '../../../myapp/src/constants';
+import { action, decorate, ObservableMap } from 'mobx';
 import { JsOrder, Order } from '../domain/order';
 
 export class OrderStore {
-    orderMap: Map<string, JsOrder[]> = new Map();
-    filter: string = VisibilityFilterEnum.ALL;
-    numOrdersToCreate: number = 10;
+    private orderMap: ObservableMap<string, Order>;
+    // private filter: string;
+    // private numOrdersToCreate: number;
 
-    get numOrders() {
-        return this.orderMap.size;
+    constructor() {
+        this.orderMap = new ObservableMap<string, Order>();
     }
 
-    constructor(public rootStore: any) {}
-
     initialize = (jsOrders: JsOrder[]) => {
-        jsOrders.forEach(order => {
-            this.orderMap.set(order.id, jsOrders);
-        });
+        jsOrders.forEach(this.createOrder);
     };
 
-    createOrder = (jsOrder: JsOrder) => {};
+    createOrder = (jsOrder: JsOrder) => {
+        const { id, side, symbol, quantity, committed, executed } = jsOrder;
+        this.orderMap.set(id, new Order(id, side, symbol, quantity, committed, executed));
+    };
 
     updateOrder = (jsOrder: JsOrder) => {
-        // const order = new Order(jsOrder);
-        // Order.update(jsOrder);
+        const { id } = jsOrder;
+        let order = this.orderMap.get(id);
+
+        if(order) {
+            order.update(jsOrder);
+            this.orderMap.set(id, order);
+        } else
+            throw Error(`Order with id ${id} does not exist.`);
     };
+
+    deleteAllOrders = () => {
+        this.orderMap.clear();
+    }
+
+    setNumOrdersToCreate = (num: number) => {
+        
+    }
+
+    setFilter = (filter: string) => {
+
+    }
 }
 
 decorate(OrderStore, {
-    orderMap: observable,
-    filter: observable,
-    numOrdersToCreate: observable,
-    numOrders: computed,
     initialize: action,
     createOrder: action,
-    updateOrder: action
+    updateOrder: action,
+    deleteAllOrders: action,
+    setNumOrdersToCreate: action,
+    setFilter: action
 });
