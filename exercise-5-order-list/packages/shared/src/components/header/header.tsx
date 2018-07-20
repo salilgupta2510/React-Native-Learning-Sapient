@@ -6,11 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
-import {
-    WithStyles,
-    withStyles,
-    StyledComponentProps
-} from '@material-ui/core/styles';
+import { WithStyles, withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
 import { VisibilitySelector } from '../visibility-selector';
@@ -53,66 +49,33 @@ export interface HeaderProps {
 export const Header = inject('rootStore')(
     decorate<HeaderProps>(
         observer(
-            class extends React.Component<
-                HeaderProps &
-                    WithStyles<
-                        | 'toolbar'
-                        | 'title'
-                        | 'textField'
-                        | 'headerButton'
-                        | 'chip'
-                    >
-            > {
+            class extends React.Component<HeaderProps & WithStyles<'toolbar' | 'title' | 'textField' | 'headerButton' | 'chip'>> {
                 state = {
-                    numOrdersToCreate: 10
+                    numOrdersToCreate: 10,
                 };
-                onNumOrdersToCreateChanged = (numOrdersToCreate: any) => (
-                    event: React.ChangeEvent<any>
-                ): void => {
+                onNumOrdersToCreateChanged = (numOrdersToCreate: any) => (event: React.ChangeEvent<any>): void => {
                     this.setState({
-                        [numOrdersToCreate]: event.target.value
+                    [numOrdersToCreate]: event.target.value,
                     });
                 };
                 render() {
-                    const {
-                        classes,
-                        children,
-                        filters,
-                        selectedFilter
-                    } = this.props;
-
+                    const { classes, children, filters, selectedFilter } = this.props;
+            
                     return (
                         <AppBar position="static" color="default">
                             <Toolbar className={classes.toolbar}>
-                                <Typography
-                                    variant="title"
-                                    className={classes.title}
-                                >
+                                <Typography variant="title" className={classes.title}>
                                     {children}
                                 </Typography>
-                                <VisibilitySelector
-                                    filters={filters}
-                                    value={selectedFilter}
-                                />
+                                <VisibilitySelector filters={filters} value={selectedFilter} />
                                 <TextField
                                     id="numOrdersToCreate"
                                     className={classes.textField}
                                     value={this.state.numOrdersToCreate}
-                                    onChange={this.onNumOrdersToCreateChanged(
-                                        'numOrdersToCreate'
-                                    )}
+                                    onChange={this.onNumOrdersToCreateChanged('numOrdersToCreate')}
                                 />
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.headerButton}
-                                >
-                                    New Order
-                                </Button>
-                                <Chip
-                                    label={this.state.numOrdersToCreate}
-                                    className={classes.chip}
-                                />
+                                <Button variant="contained" color="primary" className={classes.headerButton}>New Order</Button>
+                                <Chip label={this.state.numOrdersToCreate} className={classes.chip} />
                             </Toolbar>
                         </AppBar>
                     );
