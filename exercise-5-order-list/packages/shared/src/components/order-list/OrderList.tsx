@@ -1,7 +1,11 @@
 import * as React from 'react';
 
 import { inject, observer } from 'mobx-react';
-import { WithStyles, withStyles, StyledComponentProps } from '@material-ui/core/styles';
+import {
+    WithStyles,
+    withStyles,
+    StyledComponentProps
+} from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,9 +15,23 @@ import TableCell from '@material-ui/core/TableCell';
 import { OrderView } from './OrderView';
 
 const styles = (theme: Theme) => ({
-      table: {
-        width: '100%',
-      },
+    table: {
+        width: 'auto',
+        backgroundColor: theme.palette.grey[850]
+    },
+    tableHead: {
+        fontSize: 11,
+        fontFamily: 'Roboto',
+        letterSpacing: 0,
+        color: '#757575',
+        height: 'auto'
+    },
+    tableRow: {
+        textOverflow: 'ellipses',
+        width: '10%',
+        height: '29px',
+        padding: '8px'
+    }
 });
 
 const decorate = withStyles(styles);
@@ -28,7 +46,9 @@ export interface OrderProps {
 export const OrderList = inject('rootStore')(
     decorate<OrderProps>(
         observer(
-            class extends React.Component<OrderProps & WithStyles<'table'>> {
+            class extends React.Component<
+                OrderProps & WithStyles<'table' | 'tableHead' | 'tableRow'>
+            > {
                 render() {
                     const orders = [
                         {
@@ -47,12 +67,19 @@ export const OrderList = inject('rootStore')(
                         }
                     ];
                     const { classes } = this.props;
+                    const orderKeys = Object.keys(orders[0]);
                     return (
                         <Table className={classes.table}>
                             <TableHead>
-                                <TableRow>
-                                    {Object.keys(orders[0]).map(order => {
-                                        <TableCell>{order}</TableCell>
+                                <TableRow className={classes.tableHead}>
+                                    {orderKeys.map(order => {
+                                        return (
+                                            <TableCell
+                                                className={classes.tableRow}
+                                            >
+                                                {order}
+                                            </TableCell>
+                                        );
                                     })}
                                 </TableRow>
                             </TableHead>
@@ -63,4 +90,4 @@ export const OrderList = inject('rootStore')(
             }
         )
     )
-)
+);

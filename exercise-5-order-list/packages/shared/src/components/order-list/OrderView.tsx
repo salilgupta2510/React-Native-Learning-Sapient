@@ -1,43 +1,120 @@
 import * as React from 'react';
-import { WithStyles, withStyles, StyledComponentProps } from '@material-ui/core/styles';
+import {
+    WithStyles,
+    withStyles,
+    StyledComponentProps
+} from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 
 const styles = (theme: Theme) => ({
-    table: {
-      width: '100%',
+    tableBody: {
+        backgroundColor: theme.palette.grey[750]
     },
+    buyStyle: {
+        fontFamily: 'Roboto',
+        fontSize: 11,
+        color: theme.palette.business.buyText,
+        letterSpacing: 0,
+        width: '10%',
+        height: '18px',
+        fontWeight: theme.typography.fontWeightBold,
+        padding: '2.5px 8px'
+    },
+    sellStyle: {
+        fontFamily: 'Roboto',
+        fontSize: 11,
+        color: theme.palette.business.sellText,
+        letterSpacing: 0,
+        width: '10%',
+        height: '18px',
+        fontWeight: theme.typography.fontWeightBold,
+        padding: '2.5px 8px'
+    },
+    buyBackground: {
+        backgroundColor: theme.palette.business.buyBackground
+    },
+    sellBackground: {
+        backgroundColor: theme.palette.business.sellBackground
+    },
+    fontStyle: {
+        width: '10%',
+        height: '18px',
+        fontWeight: theme.typography.fontWeightMedium,
+        padding: '2.5px 8px',
+        fontFamily: 'Roboto',
+        fontSize: 11,
+        letterSpacing: 0
+    },
+    symbol: {
+        color: '#FFFFFF'
+    },
+    quantity: {
+        color: 'rgba(255,255,255,0.70)'
+    },
+    tableRow: {
+        height: 'auto'
+    }
 });
 
 const decorate = withStyles(styles);
 
 export interface OrderViewProps {
-  orders: any[]
+    orders: any[];
 }
 
 export const OrderView = decorate<OrderViewProps>(
-    class extends React.Component<OrderViewProps & WithStyles<'table'>> {
+    class extends React.Component<
+        OrderViewProps &
+            WithStyles<
+                | 'tableBody'
+                | 'tableRow'
+                | 'quantity'
+                | 'fontStyle'
+                | 'symbol'
+                | 'buyStyle'
+                | 'sellStyle'
+                | 'sellBackground'
+                | 'buyBackground'
+            >
+    > {
         render() {
             const { classes, orders } = this.props;
+            const quantityClass = `${classes.quantity} ${classes.fontStyle}`;
+            const symbolClass = `${classes.symbol} ${classes.fontStyle}`;
             return (
-                <TableBody>
+                <TableBody className={classes.tableBody}>
                     {orders.map(order => {
                         return (
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                {order.side}
-                            </TableCell>
-                            <TableCell>{order.symbol}</TableCell>
-                            <TableCell>{order.quantity}</TableCell>
-                            <TableCell>{order.committed}</TableCell>
-                            <TableCell>{order.executed}</TableCell>
-                        </TableRow>
+                            <TableRow className={classes.tableRow}>
+                                <TableCell
+                                    className={
+                                        order.side === 'BUY'
+                                            ? classes.buyStyle
+                                            : classes.sellStyle
+                                    }
+                                >
+                                    {order.side}
+                                </TableCell>
+                                <TableCell className={symbolClass}>
+                                    {order.symbol}
+                                </TableCell>
+                                <TableCell className={quantityClass}>
+                                    {order.quantity}
+                                </TableCell>
+                                <TableCell className={quantityClass}>
+                                    {order.committed}
+                                </TableCell>
+                                <TableCell className={quantityClass}>
+                                    {order.executed}
+                                </TableCell>
+                            </TableRow>
                         );
                     })}
                 </TableBody>
             );
         }
     }
-)
+);
