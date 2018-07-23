@@ -69,9 +69,15 @@ export const Header = inject('rootStore')(
                 onNumOrdersToCreateChanged = (numOrdersToCreate: any) => (
                     event: React.ChangeEvent<any>
                 ): void => {
-                    this.setState({
-                        [numOrdersToCreate]: event.target.value
-                    });
+                    this.setState(
+                        {
+                            [numOrdersToCreate]: event.target.value
+                        },
+                        () =>
+                            this.props.rootStore.orderStore.setNumOrdersToCreate(
+                                this.state.numOrdersToCreate
+                            )
+                    );
                 };
                 render() {
                     const {
@@ -93,6 +99,7 @@ export const Header = inject('rootStore')(
                                 <VisibilitySelector
                                     filters={filters}
                                     value={selectedFilter}
+                                    orderStore={this.props.rootStore.orderStore}
                                 />
                                 <TextField
                                     id="numOrdersToCreate"

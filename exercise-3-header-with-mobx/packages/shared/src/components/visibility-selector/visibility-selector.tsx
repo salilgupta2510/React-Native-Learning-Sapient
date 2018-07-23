@@ -1,7 +1,12 @@
 import * as React from 'react';
 
-import { StyledComponentProps, WithStyles, withStyles } from '@material-ui/core/styles';
+import {
+    StyledComponentProps,
+    WithStyles,
+    withStyles
+} from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { inject } from 'mobx-react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -21,48 +26,56 @@ const decorate = withStyles(styles);
 export interface VisibilityProps {
     value: string;
     filters: any;
+    orderStore: any;
 }
 
-export const VisibilitySelector = decorate<VisibilityProps>(
-    class extends React.Component<VisibilityProps & WithStyles<'headerControls' | 'checked' | 'headerButton'>> {
+export const VisibilitySelector = inject('rootStore')(
+    decorate<VisibilityProps>(
+        class extends React.Component<
+            VisibilityProps &
+                WithStyles<'headerControls' | 'checked' | 'headerButton'>
+        > {
+            state = {
+                selectedValue: this.props.filters[this.props.value]
+            };
 
-        state = {
-            selectedValue: this.props.filters[this.props.value]
-        };
+            handleChange = (event: React.ChangeEvent<any>): void => {
+                const { orderStore } = this.props;
+                this.setState({ selectedValue: event.target.value }, () =>
+                    orderStore.setFilter(this.state.selectedValue)
+                );
+            };
 
-        handleChange = (event: React.ChangeEvent<any>): void => {
-            this.setState({ selectedValue: event.target.value });
-        };
-
-        render() {
-            const { classes, filters } = this.props;
-            return (
-                <div className={classes.headerControls}>
-                    <RadioGroup
-                        aria-label="Filter"
-                        name="filter"
-                        style={{ flexDirection: 'row' }}
-                        value={this.state.selectedValue}
-                        onChange={this.handleChange}
-                    >
-                        {Object.keys(filters).map(filter => (
-                            <FormControlLabel
-                                key={filter}
-                                value={filter}
-                                control={
-                                    <Radio
-                                        classes={{
-                                            checked: classes.checked
-                                        }}
-                                    />
-                                }
-                                label={filter}
-                            />
-                        ))}
-                    </RadioGroup>
-                    <Button className={classes.headerButton}>Reset</Button>
-                </div>
-            );
+            render() {
+                const { classes, filters } = this.props;
+                return (
+                    <div className={classes.headerControls}>
+                        <RadioGroup
+                            aria-label="Filter"
+                            name="filter"
+                            style={{ flexDirection: 'row' }}
+                            value={this.state.selectedValue}
+                            onChange={this.handleChange}
+                        >
+                            {Object.keys(filters).map(filter => (
+                                <FormControlLabel
+                                    key={filter}
+                                    value={filter}
+                                    control={
+                                        <Radio
+                                            classes={{
+                                                checked: classes.checked
+                                            }}
+                                        />
+                                    }
+                                    label={filter}
+                                />
+                            ))}
+                        </RadioGroup>
+                        <Button className={classes.headerButton}>Reset</Button>
+                    </div>
+                );
+            }
         }
-    }
+    )
 );
